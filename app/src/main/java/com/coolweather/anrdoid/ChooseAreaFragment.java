@@ -71,6 +71,7 @@ public class ChooseAreaFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
+        queryProvinces();
         return view;
     }
     @Override
@@ -98,7 +99,6 @@ public class ChooseAreaFragment extends Fragment {
                 }
             }
         });
-        queryProvinces();
     }
     private void queryProvinces() {
         titleText.setText("中国");
@@ -118,12 +118,11 @@ public class ChooseAreaFragment extends Fragment {
         backButton.setVisibility(View.VISIBLE);
             int provinceCode = selecteProvince.getProvinceCode();
             int cityCode = selecteCity.getCityCode();
-            String address = "http://guolin.tech/api/china" + provinceCode + "/" + cityCode;
+            String address = "http://guolin.tech/api/china/" + provinceCode + "/" + cityCode;
             queryFromServer(address, "county");
     }
 
     private void queryFromServer(String address, final String type) {
-        //   showProgressDialog();
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -218,6 +217,7 @@ public class ChooseAreaFragment extends Fragment {
                         }
                     }
                 }
+                closeProgressDialog();
             }
         });
     }
